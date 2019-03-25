@@ -2,15 +2,13 @@
 %global gem_name fluent-plugin-elasticsearch
 
 Name: rubygem-%{gem_name}
-Version: 1.9.5.1
+Version: 1.17.2
 Release: 1%{?dist}
 Summary: ElasticSearch output plugin for Fluent event collector
 Group: Development/Languages
 License: MIT
 URL: https://github.com/uken/fluent-plugin-elasticsearch
-# carry this patch until accepted by upstream
-Source0: https://github.com/ViaQ/fluent-plugin-elasticsearch/releases/download/v%{version}/%{gem_name}-%{version}.gem
-#Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
+Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
 
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel 
@@ -21,7 +19,7 @@ BuildRequires: rubygem(test-unit)
 BuildRequires: rubygem(excon)
 BuildRequires: rubygem(elasticsearch)
 BuildRequires: rubygem(multipart-post)
-Requires: fluentd >= 0.10.43
+Requires: fluentd >= 0.12.0
 Requires: rubygem(elasticsearch)
 Requires: rubygem(excon)
 BuildArch: noarch
@@ -87,15 +85,40 @@ popd
 %doc %{gem_instdir}/README.md
 %doc %{gem_instdir}/Rakefile
 %doc %{gem_instdir}/Gemfile
-%doc %{gem_instdir}/Gemfile.v0.14
+%doc %{gem_instdir}/Gemfile.v0.12
 %doc %{gem_instdir}/%{gem_name}.gemspec
 %doc %{gem_instdir}/test
-%doc %{gem_instdir}/bulk.sh
-%doc %{gem_instdir}/data-step-00.json
-%doc %{gem_instdir}/data-step-01.json
-%doc %{gem_instdir}/example.bulkerror.json
 
 %changelog
+* Wed Aug 15 2018 Rich Megginson <rmeggins@redhat.com> - 1.17.2-1
+- version 0.17.2
+- Bug 1489533 - logging-fluentd needs to periodically reconnect to logging-mux or elasticsearch to help balance sessions
+
+* Wed Jun 20 2018 Jeff Cantrill <jcantril@redhat.com> - 1.17.0-1
+- version 1.17.0
+- Bug 1593297. Fix improper evaluation of bulk index count which
+- causes fluent to become wedged when the request/response differ
+
+* Wed May 09 2018 Jeff Cantrill <jcantril@redhat.com> - 1.16.1-1
+- version 1.16.1
+
+* Fri Apr 27 2018 Rich Megginson <rmeggins@redhat.com> - 1.15.2-1
+- version 1.15.2
+- Bug 1541429 logging-fluentd gets wedged in a state where retries do not succeed after bulk index queue full error
+- - previous fix caused a regression
+
+* Wed Apr 18 2018 Jeff Cantrill <jcantril@redhat.com> - 1.15.0-1
+- version 1.15.0
+
+* Fri Apr 13 2018 Jeff Cantrill <jcantril@redhat.com> - 1.14.0-1
+- version 1.14.0
+
+* Tue Feb 27 2018 Rich Megginson <rmeggins@redhat.com> - 1.13.2-1
+- version 1.13.2
+
+* Wed Dec 13 2017 Rich Megginson <rmeggins@redhat.com> - 1.13.0-1
+- version 1.13.0
+
 * Fri Sep  1 2017 Rich Megginson <rmeggins@redhat.com> - 1.9.5.1-1
 - Retry on certain errors from Elasticsearch
 -   specifically, better handling for bulk index rejections
